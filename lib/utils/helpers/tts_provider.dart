@@ -1,5 +1,6 @@
 import 'package:flutter_tts/flutter_tts.dart';
 
+// TTS 관련 로직
 class TtsProvider {
   static final TtsProvider _instance = TtsProvider._internal();
   final FlutterTts tts = FlutterTts();

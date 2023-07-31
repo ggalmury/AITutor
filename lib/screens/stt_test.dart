@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
+// TODO: STT 관련 로직 분리
 class SttTest extends StatefulWidget {
   const SttTest({super.key});
 
