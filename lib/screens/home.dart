@@ -1,5 +1,7 @@
 import 'package:ai_tutor/bloc/account_bloc.dart';
 import 'package:ai_tutor/screens/ai_chat.dart';
+import 'package:ai_tutor/screens/hero_meet.dart';
+import 'package:ai_tutor/screens/review.dart';
 import 'package:ai_tutor/screens/wallet.dart';
 import 'package:ai_tutor/utils/custom/custom_color.dart';
 import 'package:ai_tutor/widgets/atoms/option_btn.dart';
@@ -48,6 +50,13 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute<void>(
             builder: (BuildContext context) => const Wallet()));
+  }
+
+  void _onHeroMeetBtnPressed() {
+    Navigator.push<void>(
+        context,
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => const HeroMeet()));
   }
 
   @override
@@ -120,33 +129,36 @@ class _HomeState extends State<Home> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, crossAxisSpacing: 30, mainAxisSpacing: 30),
             children: [
-              _selectBox("assets/images/main1.png", "복습하기\n", const AiChat()),
+              _selectBox("assets/images/main1.png", "복습하기\n", const Review()),
               _selectBox(
                   "assets/images/main2.png", "AI티쳐와\n수다떨기", const AiChat()),
-              _selectBox("assets/images/main3.png", "두뇌훈련\n게임", const AiChat()),
+              _selectBox("assets/images/main3.png", "두뇌훈련\n게임", const Review()),
               _selectBox(
-                  "assets/images/main4.png", "선생님과\n상담하기", const AiChat())
+                  "assets/images/main4.png", "선생님과\n상담하기", const Review())
             ],
           ))
         ]),
       )),
-      Container(
-          color: CustomColor.mint,
-          height: 90,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 55),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset("assets/images/Lim.png"),
-                const Text("영웅이 만나러 가는 길",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold))
-              ],
-            ),
-          ))
+      GestureDetector(
+        onTap: _onHeroMeetBtnPressed,
+        child: Container(
+            color: CustomColor.mint,
+            height: 90,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset("assets/images/Lim.png"),
+                  const Text("영웅이 만나러 가는 길",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold))
+                ],
+              ),
+            )),
+      )
     ])));
   }
 }

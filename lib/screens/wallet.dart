@@ -1,5 +1,6 @@
 import 'package:ai_tutor/bloc/account_bloc.dart';
 import 'package:ai_tutor/bloc/cash_stack_bloc.dart';
+import 'package:ai_tutor/screens/review.dart';
 import 'package:ai_tutor/widgets/atoms/option_btn.dart';
 import 'package:ai_tutor/widgets/atoms/submit_btn.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,13 @@ class Wallet extends StatefulWidget {
 class _WalletState extends State<Wallet> {
   void _onPrevBtnPressed() {
     Navigator.pop(context);
+  }
+
+  void _onTodayReviewPressed() {
+    Navigator.push<void>(
+        context,
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => const Review()));
   }
 
   void _lessStampDialog() {
@@ -83,11 +91,23 @@ class _WalletState extends State<Wallet> {
                                     TextSpan(text: "을 발급해 드립니다!"),
                                   ]))),
                       const SizedBox(height: 30),
-                      SubmitBtn(
-                          height: 56,
-                          title: "복습하러 가기",
-                          borderRadius: 30,
-                          onPressed: () {})
+                      BlocBuilder<CashStackBloc, int>(
+                        builder: (context, state) {
+                          return SubmitBtn(
+                              height: 56,
+                              title: state != 14 ? "복습하러 가기" : "수료증 발급받기",
+                              borderRadius: 30,
+                              backgroundColor: CustomColor.mint,
+                              foregroundColor: Colors.white,
+                              borderColor: CustomColor.mint,
+                              onPressed: state != 14
+                                  ? _onTodayReviewPressed
+                                  : () {
+                                      Navigator.pop(context);
+                                      _enoughStampDialog();
+                                    });
+                        },
+                      )
                     ],
                   ),
                 )),
@@ -144,18 +164,69 @@ class _WalletState extends State<Wallet> {
                           height: 55,
                           title: "저장하기",
                           borderRadius: 30,
+                          backgroundColor: CustomColor.mint,
+                          foregroundColor: Colors.white,
+                          borderColor: CustomColor.mint,
                           onPressed: () {}),
                       SubmitBtn(
                           height: 55,
                           title: "공유하기",
                           borderRadius: 30,
-                          isWhite: true,
+                          backgroundColor: Colors.white,
+                          foregroundColor: CustomColor.mint,
+                          borderColor: CustomColor.mint,
                           onPressed: () {})
                     ],
                   ),
                 )),
           );
         });
+  }
+
+  void _showModalBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 730,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Center(
+              child: Column(children: [
+                const SizedBox(height: 70),
+                const SizedBox(
+                  height: 120,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("QR코드를 스캔해주세요",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold)),
+                        Text("Place qr code inside the frame to scan please",
+                            style: TextStyle(color: Color(0xFFCECECE))),
+                        Text("avoid shake to get results quickly",
+                            style: TextStyle(color: Color(0xFFCECECE)))
+                      ]),
+                ),
+                Image.asset("assets/images/qr.png"),
+                const SizedBox(height: 20),
+                SubmitBtn(
+                    height: 70,
+                    title: "닫기",
+                    borderRadius: 10,
+                    onPressed: () => Navigator.pop(context),
+                    borderColor: CustomColor.mint,
+                    backgroundColor: Colors.white,
+                    foregroundColor: CustomColor.mint)
+              ]),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -198,7 +269,7 @@ class _WalletState extends State<Wallet> {
                 borderColor: CustomColor.mint,
                 width: 160,
                 icon: const Icon(Icons.qr_code),
-                onPressed: () {}),
+                onPressed: _showModalBottomSheet),
             BlocBuilder<CashStackBloc, int>(builder: (context, state) {
               return OptionBtn(
                   title: "NFT수료증",
@@ -206,8 +277,7 @@ class _WalletState extends State<Wallet> {
                   foregroundColor: CustomColor.mint,
                   borderColor: CustomColor.whiteMint,
                   width: 160,
-                  onPressed:
-                      state == 14 ? _enoughStampDialog : _lessStampDialog);
+                  onPressed: _lessStampDialog);
             })
           ],
         ),
@@ -247,6 +317,9 @@ class _WalletState extends State<Wallet> {
                     height: 70,
                     title: "이전으로 돌아가기",
                     borderRadius: 10,
+                    backgroundColor: CustomColor.mint,
+                    foregroundColor: Colors.white,
+                    borderColor: CustomColor.mint,
                     onPressed: _onPrevBtnPressed)))
       ]),
     )));

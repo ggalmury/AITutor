@@ -51,8 +51,9 @@ class _AiChatState extends State<AiChat> with WidgetsBindingObserver {
       String name = context.read<AccountBloc>().state;
       context.read<GPTApi>().injectName(name);
       context.read<ChatBloc>().add(InitChatEvent());
-      context.read<ChatBloc>().add(AiNewChatEvent(
-          myChat: "너는 AI teacher 아이티쳐 이고, 나의 이름은 $name 이야. 기억해둬"));
+      context
+          .read<ChatBloc>()
+          .add(AiNewChatEvent(myChat: "너부터 대화를 시작해보자. 내이름을 부르며 인사해줘"));
     });
   }
 
@@ -127,7 +128,15 @@ class _AiChatState extends State<AiChat> with WidgetsBindingObserver {
                                 ? SttProvider().stopListening()
                                 : SttProvider().startListening();
                           },
-                          child: const Icon(Icons.mic_rounded),
+                          child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                  color: CustomColor.mint,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
+                              child: const Icon(Icons.mic_rounded,
+                                  color: Colors.white)),
                         );
                       })
                     ]))

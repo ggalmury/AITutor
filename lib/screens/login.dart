@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
   bool? isValidAccount;
 
   void _onLogigBtnPress() {
-    if (_nameController.text == "이재윤" && _telController.text == "1234") {
+    if (_nameController.text == "권순희" && _telController.text == "01012345678") {
       context
           .read<AccountBloc>()
           .add(SetAccountEvent(name: _nameController.text));
@@ -121,6 +121,9 @@ class _LoginState extends State<Login> {
                         height: 70,
                         title: "로그인",
                         borderRadius: 30,
+                        backgroundColor: CustomColor.mint,
+                        foregroundColor: Colors.white,
+                        borderColor: CustomColor.mint,
                         onPressed: _onLogigBtnPress,
                       )
                     ]),

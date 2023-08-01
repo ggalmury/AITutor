@@ -1,12 +1,13 @@
-import 'package:ai_tutor/utils/custom/custom_color.dart';
 import 'package:flutter/material.dart';
 
 class SubmitBtn extends StatelessWidget {
   final double height;
   final String title;
   final double borderRadius;
+  final Color borderColor;
+  final Color backgroundColor;
+  final Color foregroundColor;
   final void Function() onPressed;
-  final bool? isWhite;
 
   const SubmitBtn(
       {super.key,
@@ -14,28 +15,25 @@ class SubmitBtn extends StatelessWidget {
       required this.title,
       required this.borderRadius,
       required this.onPressed,
-      this.isWhite});
+      required this.borderColor,
+      required this.backgroundColor,
+      required this.foregroundColor});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(double.infinity, height),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              width: 2,
-              color: isWhite == true ? CustomColor.mint : Colors.white),
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        shadowColor: Colors.transparent,
-        backgroundColor: isWhite == true ? Colors.white : CustomColor.mint,
-      ),
+          minimumSize: Size(double.infinity, height),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 2, color: borderColor),
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          shadowColor: Colors.transparent,
+          backgroundColor: backgroundColor),
       child: Text(
         title,
-        style: TextStyle(
-            fontSize: 28,
-            color: isWhite == true ? CustomColor.mint : Colors.white),
+        style: TextStyle(fontSize: 25, color: foregroundColor),
       ),
     );
   }
