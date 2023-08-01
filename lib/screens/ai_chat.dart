@@ -13,10 +13,13 @@ class AiChat extends StatefulWidget {
 
 class _AiChatState extends State<AiChat> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
 
-    SttProvider().injectBloc(context.read<SttBloc>(), context.read<ChatBloc>());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SttProvider()
+          .injectBloc(context.read<SttBloc>(), context.read<ChatBloc>());
+    });
   }
 
   @override

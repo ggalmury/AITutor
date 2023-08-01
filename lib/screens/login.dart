@@ -3,7 +3,7 @@ import 'package:ai_tutor/widgets/atoms/login_input.dart';
 import 'package:ai_tutor/widgets/atoms/submit_btn.dart';
 import 'package:flutter/material.dart';
 
-import 'Home.dart';
+import 'home.dart';
 
 class Login extends StatefulWidget {
   final TextStyle _titleFontStyle = const TextStyle(
@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
   bool? isValidAccount;
 
   void _onLogigBtnPress() {
-    if (_nameController.text == "권순희" && _telController.text == "1234") {
+    if (_nameController.text == "이재윤" && _telController.text == "1234") {
       Navigator.push<void>(
           context,
           MaterialPageRoute<void>(
@@ -54,6 +54,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -1,7 +1,7 @@
 import 'package:ai_tutor/apis/gpt_api.dart';
+import 'package:ai_tutor/bloc/cash_stack_bloc.dart';
 import 'package:ai_tutor/bloc/chat_bloc.dart';
 import 'package:ai_tutor/bloc/stt_bloc.dart';
-import 'package:ai_tutor/screens/ai_chat.dart';
 import 'package:ai_tutor/screens/login.dart';
 import 'package:ai_tutor/utils/helpers/tts_provider.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,8 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (context) => SttBloc()),
         BlocProvider(
           create: (context) => ChatBloc(context.read<GPTApi>()),
-        )
+        ),
+        BlocProvider(create: (context) => CashStackBloc())
       ], child: const MaterialApp(home: Login())),
     );
   }

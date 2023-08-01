@@ -7,8 +7,8 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 class SttProvider {
   static final SttProvider _instance = SttProvider._internal();
   final stt.SpeechToText _speechToText = stt.SpeechToText();
-  late final SttBloc _sttBloc;
-  late final ChatBloc _chatBloc;
+  SttBloc? _sttBloc;
+  ChatBloc? _chatBloc;
 
   String text = "";
 
@@ -19,6 +19,8 @@ class SttProvider {
   }
 
   void injectBloc(SttBloc sttBloc, ChatBloc chatBloc) {
+    if (_instance._sttBloc != null && _instance._chatBloc != null) return;
+
     _instance._sttBloc = sttBloc;
     _instance._chatBloc = chatBloc;
   }
@@ -34,7 +36,7 @@ class SttProvider {
     );
 
     if (available) {
-      _sttBloc.add(StartListeningSttEvent());
+      _sttBloc!.add(StartListeningSttEvent());
 
       _speechToText.listen(
         onResult: (result) {
@@ -48,10 +50,10 @@ class SttProvider {
   void stopListening() {
     _speechToText.stop();
     Timer(const Duration(seconds: 1), () {
-      _sttBloc.add(OnListeningSttEvent(newText: text));
-      _chatBloc.add(MyNewChatEvent(myChat: text));
-      _chatBloc.add(AiNewChatEvent(myChat: text));
-      _sttBloc.add(InitSttEvent());
+      _sttBloc!.add(OnListeningSttEvent(newText: text));
+      _chatBloc!.add(MyNewChatEvent(myChat: text));
+      _chatBloc!.add(AiNewChatEvent(myChat: text));
+      _sttBloc!.add(InitSttEvent());
     });
   }
 }
