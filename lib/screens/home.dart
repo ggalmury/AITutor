@@ -1,13 +1,17 @@
+import 'package:ai_tutor/bloc/account_bloc.dart';
 import 'package:ai_tutor/screens/ai_chat.dart';
 import 'package:ai_tutor/screens/wallet.dart';
 import 'package:ai_tutor/utils/custom/custom_color.dart';
 import 'package:ai_tutor/widgets/atoms/option_btn.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/chat_bloc.dart';
+import '../bloc/stt_bloc.dart';
+import '../utils/helpers/stt_provider.dart';
 
 class Home extends StatefulWidget {
-  final String name;
-
-  const Home({super.key, required this.name});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -47,6 +51,16 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SttProvider()
+          .injectBloc(context.read<SttBloc>(), context.read<ChatBloc>());
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
@@ -67,8 +81,12 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Image.asset("assets/images/person-circle.png"),
-                            Text("${widget.name} [초급]",
-                                style: const TextStyle(fontSize: 25))
+                            BlocBuilder<AccountBloc, String>(
+                              builder: (context, state) {
+                                return Text("$state [초급]",
+                                    style: const TextStyle(fontSize: 25));
+                              },
+                            )
                           ]),
                     ),
                     OptionBtn(

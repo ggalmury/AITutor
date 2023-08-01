@@ -39,11 +39,11 @@ class SttProvider {
       _sttBloc!.add(StartListeningSttEvent());
 
       _speechToText.listen(
-        onResult: (result) {
-          text = result.recognizedWords;
-        },
-        localeId: 'ko_KR',
-      );
+          onResult: (result) {
+            text = result.recognizedWords;
+          },
+          localeId: 'ko_KR',
+          listenFor: const Duration(minutes: 1));
     }
   }
 

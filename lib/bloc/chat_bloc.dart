@@ -14,6 +14,8 @@ class ChatBloc extends Bloc<DefaultChatEvent, DefaultChatState> {
         await _aiNewChatEventHandler(event, emit);
       } else if (event is MyNewChatEvent) {
         _myNewChatEventHandler(event, emit);
+      } else if (event is InitChatEvent) {
+        _initChatEventHandler(event, emit);
       }
     });
   }
@@ -35,17 +37,28 @@ class ChatBloc extends Bloc<DefaultChatEvent, DefaultChatState> {
   }
 
   _myNewChatEventHandler(MyNewChatEvent event, emit) {
-    Chat newChat = Chat(chatSender: ChatSender.ai, message: event.myChat);
+    Chat newChat = Chat(chatSender: ChatSender.me, message: event.myChat);
 
     List<Chat> newChatList = List.from(state.chatList);
     newChatList.add(newChat);
 
     emit(CurrentChatState(chatList: newChatList));
   }
+
+  _initChatEventHandler(InitChatEvent event, emit) {
+    emit(const CurrentChatState(chatList: []));
+  }
 }
 
 // event
 abstract class DefaultChatEvent extends Equatable {}
+
+class InitChatEvent extends DefaultChatEvent {
+  InitChatEvent();
+
+  @override
+  List<Object> get props => [];
+}
 
 class AiNewChatEvent extends DefaultChatEvent {
   final String myChat;
@@ -60,6 +73,15 @@ class MyNewChatEvent extends DefaultChatEvent {
   final String myChat;
 
   MyNewChatEvent({required this.myChat});
+
+  @override
+  List<Object> get props => [myChat];
+}
+
+class FirstChatEvent extends DefaultChatEvent {
+  final String myChat;
+
+  FirstChatEvent({required this.myChat});
 
   @override
   List<Object> get props => [myChat];

@@ -4,6 +4,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class GPTApi {
+  late String _name;
+
+  void injectName(String name) {
+    _name = name;
+  }
+
   Future<String?> fetchAnswer(String question) async {
     loggerNoStack.i("GPT request: $question");
 
@@ -19,10 +25,11 @@ class GPTApi {
         "model": "gpt-3.5-turbo",
         "messages": [
           {
-            "role": "user",
+            "role": "system",
             "content":
-                "You are an AI trained to provide empathetic and supportive responses like a professional counselor. $question"
-          }
+                "You are AI teacher 아이티쳐. My name is $_name From now on you are going to act as a A.I teacher. you know korean historical big issues really well especially 19C to 20C. you are good listener. you can  response as a counseler based on previous dialog. please chat neaty and pleasantly only one sentence is available to speak."
+          },
+          {"role": "user", "content": question}
         ],
         "temperature": 0.7
       }),

@@ -1,7 +1,9 @@
+import 'package:ai_tutor/bloc/account_bloc.dart';
 import 'package:ai_tutor/utils/custom/custom_color.dart';
 import 'package:ai_tutor/widgets/atoms/login_input.dart';
 import 'package:ai_tutor/widgets/atoms/submit_btn.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home.dart';
 
@@ -23,12 +25,13 @@ class _LoginState extends State<Login> {
 
   void _onLogigBtnPress() {
     if (_nameController.text == "이재윤" && _telController.text == "1234") {
+      context
+          .read<AccountBloc>()
+          .add(SetAccountEvent(name: _nameController.text));
       Navigator.push<void>(
           context,
           MaterialPageRoute<void>(
-              builder: (BuildContext context) => Home(
-                    name: _nameController.text,
-                  )));
+              builder: (BuildContext context) => const Home()));
     } else {
       setState(() {
         isValidAccount = false;

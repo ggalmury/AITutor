@@ -6,12 +6,15 @@ class SubmitBtn extends StatelessWidget {
   final String title;
   final double borderRadius;
   final void Function() onPressed;
+  final bool? isWhite;
+
   const SubmitBtn(
       {super.key,
       required this.height,
       required this.title,
       required this.borderRadius,
-      required this.onPressed});
+      required this.onPressed,
+      this.isWhite});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +23,19 @@ class SubmitBtn extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: Size(double.infinity, height),
         shape: RoundedRectangleBorder(
+          side: BorderSide(
+              width: 2,
+              color: isWhite == true ? CustomColor.mint : Colors.white),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         shadowColor: Colors.transparent,
-        backgroundColor: CustomColor.mint,
+        backgroundColor: isWhite == true ? Colors.white : CustomColor.mint,
       ),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 28),
+        style: TextStyle(
+            fontSize: 28,
+            color: isWhite == true ? CustomColor.mint : Colors.white),
       ),
     );
   }
