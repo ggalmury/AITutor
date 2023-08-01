@@ -4,14 +4,14 @@ import 'package:ai_tutor/utils/helpers/stt_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SttTest extends StatefulWidget {
-  const SttTest({super.key});
+class AiChat extends StatefulWidget {
+  const AiChat({super.key});
 
   @override
-  State<SttTest> createState() => _SttTestState();
+  State<AiChat> createState() => _AiChatState();
 }
 
-class _SttTestState extends State<SttTest> {
+class _AiChatState extends State<AiChat> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -22,18 +22,26 @@ class _SttTestState extends State<SttTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('음성 입력'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlocBuilder<SttBloc, DefaultSttState>(builder: (context, state) {
-              return Text(state.text);
-            }),
-            const SizedBox(height: 20),
-            BlocBuilder<SttBloc, DefaultSttState>(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(children: [
+          SizedBox(
+            height: 600,
+            child: BlocBuilder<ChatBloc, DefaultChatState>(
+              builder: (context, state) {
+                return ListView.builder(
+                    itemCount: state.chatList.length,
+                    itemBuilder: (context, index) {
+                      return Text(state.chatList[index].message);
+                    });
+              },
+            ),
+          ),
+          Expanded(
+              child: Container(
+            color: Colors.blue,
+            child: BlocBuilder<SttBloc, DefaultSttState>(
               builder: (context, state) {
                 return ElevatedButton(
                   onPressed: () {
@@ -45,8 +53,8 @@ class _SttTestState extends State<SttTest> {
                 );
               },
             ),
-          ],
-        ),
+          ))
+        ]),
       ),
     );
   }
