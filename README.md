@@ -40,9 +40,9 @@
 ![복습 내용 화면](./assets/images/review_detail.png)
 
 ### 🎁 NFT 트로피 (기획)
-![보상 화면](./assets/images/reward.png)
 - 강의 수료 시 임영웅 NFT 지급 (기획)
 - 실제 구현은 Mockup으로 구성됨
+![보상 화면](./assets/images/reward.png)
 
 ---
 
